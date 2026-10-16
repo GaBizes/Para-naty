@@ -140,6 +140,7 @@
       font-size: 0.95rem;
       margin-top: 12px;
       display: none;
+      line-height: 1.4;
     }
 
     /* CONTEÚDO PRINCIPAL */
@@ -349,6 +350,14 @@
       starsContainer.appendChild(star);
     }
 
+    // LISTA DE DICAS CASO ELA ERRE
+    const hints = [
+      "💡 Dica 1: Tem a ver com o seu jeitinho quando você fica brava ou com ciúmes...",
+      "💡 Dica 2: Pode ser aquilo que você sente às vezes... ou como você fica quando está sem paciência comigo!",
+      "💡 Dica 3: Tente digitar 'ciúme' ou 'estressada' 😉"
+    ];
+    let attempts = 0;
+
     // VERIFICAÇÃO DA PALAVRA-CHAVE
     function checkPassword() {
       const input = document.getElementById('password-input').value.trim().toLowerCase();
@@ -356,14 +365,19 @@
       const lockScreen = document.getElementById('lock-screen');
       const mainContent = document.getElementById('main-content');
 
-      const validPasswords = ['ciume', 'cíume', 'ciúme', 'ciume ', 'ciúme '];
+      // Aceita variações de estressada e ciúme
+      const validPasswords = ['ciume', 'cíume', 'ciúme', 'estressada', 'estresada'];
 
       if (validPasswords.includes(input)) {
         errorMsg.style.display = 'none';
         lockScreen.style.display = 'none';
         mainContent.style.display = 'block';
       } else {
+        // Exibe dica progressiva a cada erro
+        const currentHint = hints[Math.min(attempts, hints.length - 1)];
+        errorMsg.innerHTML = `Palavra-chave incorreta! <br><br><b>${currentHint}</b>`;
         errorMsg.style.display = 'block';
+        attempts++;
       }
     }
 
